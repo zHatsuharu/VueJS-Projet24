@@ -2,16 +2,16 @@ export interface CardMarketPrices {
 	averageSellPrice: number
 	lowPrice: number
 	trendPrice: number
-	germanProLow: any
-	suggestedPrice: any
-	reverseHoloSell: any
-	reverseHoloLow: any
-	reverseHoloTrend: any
+	germanProLow: number
+	suggestedPrice: number
+	reverseHoloSell: number
+	reverseHoloLow: number
+	reverseHoloTrend: number
 	lowPriceExPlus: number
 	avg1: number
 	avg7: number
 	avg30: number
-	reverseHoloAvg1: any
-	reverseHoloAvg7: any
-	reverseHoloAvg30: any
+	reverseHoloAvg1: number
+	reverseHoloAvg7: number
+	reverseHoloAvg30: number
   }
