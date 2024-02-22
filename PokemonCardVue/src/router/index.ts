@@ -15,7 +15,7 @@ const router = createRouter({
 			component: GachaViewVue,
 		},
 		{
-			path: '/:notFound',
+			path: '/:notFound(.*)*',
 			component: NotFoundViewVue
 		}
 	]
