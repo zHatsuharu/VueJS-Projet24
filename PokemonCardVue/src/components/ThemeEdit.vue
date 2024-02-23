@@ -1,18 +1,15 @@
 <template>
-	<VSwitch
-		true-icon="mdi-weather-night"
-		false-icon="mdi-weather-sunny"
-		v-model="darkMode"
-		@change="$emit('changeTheme')"
-	>
-	</VSwitch>
+	<VBtn
+		:icon="icon"
+		@click="$emit('changeTheme')"
+	></VBtn>
 </template>
 
 <script setup lang="ts">
-const darkMode = defineModel({
-	default: true,
-	type: Boolean
-})
+interface Props {
+	icon?: string
+}
+const { icon } = defineProps<Props>()
 
 type Emits = {
 	'changeTheme': []

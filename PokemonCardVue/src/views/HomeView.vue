@@ -22,6 +22,13 @@
 				></VSkeletonLoader>
 			</VCol>
 		</VRow>
+		<VPagination
+			v-if="length > 0"
+			:disabled="loading"
+			:length="length"
+			v-model="page"
+			rounded="circle"
+		/>
 	</VContainer>
 </template>
 
@@ -29,17 +36,31 @@
 import { ref } from 'vue';
 import { CardList } from '../types/cardList'
 import PokemonCard from '../components/PokemonCard.vue';
+import { watch } from 'vue';
 
 	const loading = ref(true)
 	const data = ref<CardList>()
+	const page = ref(1);
+	const length = ref(0)
 
-	fetch('https://api.pokemontcg.io/v2/cards?pageSize=100', {
-		method: 'GET',
-
-	}).then(response => response.json())
-	.then(result => {
-		data.value = result
-		loading.value = false
+	watch(page, () => {
+		loading.value = true
+		fetch(`https://api.pokemontcg.io/v2/cards?pageSize=100&page=${page.value}`, {
+			method: 'GET',
+		})
+		.then(response => response.json())
+		.then(result => {
+			data.value = result
+			loading.value = false
+			if (data.value) {
+				length.value = Math.ceil(data.value.totalCount / data.value.pageSize)
+			}
+		})
+		.catch((error) => {
+			console.error(error)
+		})
+	},
+	{
+		immediate: true
 	})
-
 </script>
