@@ -27,8 +27,11 @@
 						{{ TCGPlayerPriceTitle[key as PriceKeys] }}
 					</td>
 					<template v-for="prices of Object.keys(availablePrices)">
-						<td>
-							{{ availablePrices[prices][key as PriceKeys] }}
+						<td v-if="availablePrices[prices][key as PriceKeys] != null">
+							$ {{ availablePrices[prices][key as PriceKeys] }}
+						</td>
+						<td v-else>
+							-
 						</td>
 					</template>
 				</tr>
