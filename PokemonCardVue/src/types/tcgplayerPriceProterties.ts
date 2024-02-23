@@ -1,4 +1,4 @@
-export interface Normal {
+export interface TCGPriceProperties {
 	low: number
 	mid: number
 	high: number

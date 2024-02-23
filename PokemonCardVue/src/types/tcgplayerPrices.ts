@@ -1,7 +1,9 @@
-import { Normal } from "./normal"
-import { ReverseHolofoil } from "./reverseHolofoil"
+import { TCGPriceProperties } from "./tcgplayerPriceProterties"
 
 export interface TcgplayerPrices {
-	normal: Normal
-	reverseHolofoil: ReverseHolofoil
-  }
+	normal: TCGPriceProperties
+	holofoil: TCGPriceProperties
+	reverseHolofoil?: TCGPriceProperties
+	'1stEditionNormal'?: TCGPriceProperties
+	'1stEditionHolofoil'?: TCGPriceProperties
+}
