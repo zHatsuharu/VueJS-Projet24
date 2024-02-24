@@ -2,7 +2,7 @@
 	<VContainer>
 		<VSheet
 			:elevation="3"
-			class="d-flex flex-row"
+			class="d-flex flex-row align-center"
 		>
 			<TCGPlayerData
 				:loading="loading"
@@ -13,6 +13,11 @@
 				:src="data?.images.small"
 				width="229.9"
 				height="325.45"
+			/>
+			<CardmarketData
+				:loading="loading"
+				:data="data?.cardmarket"
+				:has-holo="hasHolo"
 			/>
 		</VSheet>
 	</VContainer>
@@ -26,6 +31,8 @@ import TCGPlayerData from '../components/TCGPlayerData.vue';
 import { computed } from 'vue';
 import { tcgplayerPriceTypes } from '../constants/tcgplayerpricetypes.const';
 import { TcgplayerPrices } from '../types/tcgplayerPrices';
+import CardmarketData from '../components/CardmarketData.vue';
+import { cardmarketHoloKeys } from '../constants/cardmarketHoloKeys.const';
 
 	const route = useRoute()
 
@@ -54,6 +61,18 @@ import { TcgplayerPrices } from '../types/tcgplayerPrices';
 			}
 		}
 		return JSON.parse(JSON.stringify(result))
+	})
+
+	const hasHolo = computed(() => {
+		if (data.value) {
+			for (const [key, value] of Object.entries(data.value.cardmarket.prices)) {
+				console.log(key)
+				if (cardmarketHoloKeys.includes(key)) {
+					if (value != 0) return true
+				}
+			}
+		}
+		return false
 	})
 
 </script>
