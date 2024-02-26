@@ -1,56 +1,34 @@
 <template>
-  <VSheet>
-    <template>
-      <VCard
-          link
-          :class="{'cardFront': true, 'flipped': flipped}"
-          min-width="192"
-          min-height="266.25"
-          image="/backcard.png"
-          @click="flipped = !flipped"
-      >
-      </VCard>
-      <VCard
-          :class="{'cardBack': true, 'flipped': flipped}"
-          image=""
-      ></VCard>
-    </template>
+  <VSheet class="ma-5 pa-5 cardContainer" v-if="data.length > 0">
+      <div v-for="card in data" :key="JSON.stringify(card)" class="card">
+        <BoosterCardOpening
+          :card="card"
+        />
+      </div>
   </VSheet>
 </template>
 
 <script setup lang="ts">
-  import {BoosterCard} from "../types/boosterCard.ts";
-  import {ref} from "vue";
+import { BoosterCard } from "../types/boosterCard";
+import BoosterCardOpening from "./BoosterCardOpening.vue";
 
   interface Props {
     data: BoosterCard[]
   }
   const {data} = defineProps<Props>()
-
-  const flipped = ref(false)
 </script>
 
 <style scoped>
-.cardFront,
-.cardBack {
-  transition: transform 0.5s ease;
-  position:absolute;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
+.cardContainer {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 15px;
 }
-.cardBack {
-  transform: perspective(1000px) rotateY(180deg);
-}
-
-.cardBack.flipped {
-  transform: perspective(1000px) rotateY(0deg);
-}
-
-.cardFront {
-  transform: perspective(1000px) rotateY(0deg);
-}
-
-.cardFront.flipped {
-  transform: perspective(1000px) rotateY(-180deg);
+.card {
+  margin-top: 1rem;
+  width: 192px;
+  height: 266.25px;
+  position: relative;
+  border-radius: 0.25rem;
 }
 </style>

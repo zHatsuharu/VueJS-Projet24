@@ -28,8 +28,8 @@
 <script setup lang="ts">
 
 import {ref} from "vue";
-  import {SetGacha} from "../types/setGacha.ts";
-  import SetInfoGacha from "../components/SetInfoGacha.vue";
+import {SetGacha} from "../types/setGacha.ts";
+import SetInfoGacha from "../components/SetInfoGacha.vue";
 import {BoosterCard} from "../types/boosterCard.ts";
 import BoosterOpening from "../components/BoosterOpening.vue";
 
