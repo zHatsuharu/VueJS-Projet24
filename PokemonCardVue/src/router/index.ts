@@ -1,27 +1,23 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeViewVue from '../views/HomeView.vue';
-import GachaViewVue from '../views/GachaView.vue';
-import NotFoundViewVue from '../views/NotFoundView.vue';
-import CardViewVue from '../views/CardView.vue';
 
 const router = createRouter({
 	history: createWebHistory(),
 	routes: [
 		{
 			path: '/',
-			component: HomeViewVue,
+			component: () => import('../views/HomeView.vue'),
 		},
 		{
 			path: '/gacha',
-			component: GachaViewVue,
+			component: () => import('../views/GachaView.vue'),
 		},
 		{
 			path: '/card/:cardId',
-			component: CardViewVue,
+			component: () => import('../views/CardView.vue'),
 		},
 		{
 			path: '/:notFound(.*)*',
-			component: NotFoundViewVue
+			component: () => import('../views/NotFoundView.vue'),
 		}
 	]
 });

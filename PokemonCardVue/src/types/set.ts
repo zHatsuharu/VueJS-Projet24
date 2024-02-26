@@ -1,7 +1,7 @@
 import { Legalities } from "./legalities"
 import { SetImages } from "./setImages"
 
-export interface Set {
+export interface SetType {
 	id: string
 	name: string
 	series: string
