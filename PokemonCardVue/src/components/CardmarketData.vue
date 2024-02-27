@@ -40,6 +40,7 @@
 				</tr>
 			</tbody>
 		</VTable>
+    <VCardText v-else>No Data.</VCardText>
 		<VCardActions
 			v-if="data"
 		>

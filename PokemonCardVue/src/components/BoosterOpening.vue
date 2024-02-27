@@ -1,6 +1,6 @@
 <template>
-  <VSheet class="ma-5 pa-5 cardContainer" v-if="data.length > 0">
-      <div v-for="card in data" :key="JSON.stringify(card)" class="card">
+  <VSheet class="ma-5 pa-5 cardContainer justify-center" v-if="data.length > 0">
+      <div v-for="(card, index) in data" :key="generateKey(JSON.stringify(card), index)" class="card">
         <BoosterCardOpening
           :card="card"
         />
@@ -16,6 +16,10 @@ import BoosterCardOpening from "./BoosterCardOpening.vue";
     data: BoosterCard[]
   }
   const {data} = defineProps<Props>()
+
+  function generateKey(cardStr: string, index: number): string {
+    return cardStr + (Math.random() + index).toString(36).substring(2)
+  }
 </script>
 
 <style scoped>
@@ -23,6 +27,7 @@ import BoosterCardOpening from "./BoosterCardOpening.vue";
   display: flex;
   flex-flow: row wrap;
   gap: 15px;
+  min-width: 65%;
 }
 .card {
   margin-top: 1rem;

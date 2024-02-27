@@ -8,6 +8,7 @@
     <VCardItem>
       <VImg
           :src="data?.images.logo"
+          max-height="275"
       ></VImg>
     </VCardItem>
     <VCardActions>

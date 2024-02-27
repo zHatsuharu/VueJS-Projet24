@@ -1,25 +1,33 @@
 <template>
 	<VContainer>
-		<VSheet
-			:elevation="3"
-			class="d-flex flex-row align-center"
-		>
-			<TCGPlayerData
-				:loading="loading"
-				:data="data?.tcgplayer"
-				:available-prices="availablePrices"
-			/>
-			<VImg
-				:src="data?.images.small"
-				width="229.9"
-				height="325.45"
-			/>
-			<CardmarketData
-				:loading="loading"
-				:data="data?.cardmarket"
-				:has-holo="hasHolo"
-			/>
-		</VSheet>
+    <VSheet :elevation="3" class="ma-5">
+      <VRow
+          class="d-flex align-center"
+      >
+        <VCol>
+          <TCGPlayerData
+              :loading="loading"
+              :data="data?.tcgplayer"
+              :available-prices="availablePrices"
+          />
+        </VCol>
+        <VCol>
+          <VImg
+              :src="data?.images.small"
+              width="229.9"
+              height="325.45"
+              class="mx-auto"
+          />
+        </VCol>
+        <VCol>
+          <CardmarketData
+              :loading="loading"
+              :data="data?.cardmarket"
+              :has-holo="hasHolo"
+          />
+        </VCol>
+      </VRow>
+    </VSheet>
 	</VContainer>
 </template>
 
@@ -53,7 +61,7 @@ import { cardmarketHoloKeys } from '../constants/cardmarketHoloKeys.const';
 
 	const availablePrices = computed(() => {
 		const result: any = {}
-		if (data.value) {
+		if (data.value?.tcgplayer) {
 			for(const priceType of tcgplayerPriceTypes) {
 				if (data.value.tcgplayer.prices[priceType as keyof TcgplayerPrices]) {
 					result[priceType] = data.value.tcgplayer.prices[priceType as keyof TcgplayerPrices]
@@ -64,9 +72,8 @@ import { cardmarketHoloKeys } from '../constants/cardmarketHoloKeys.const';
 	})
 
 	const hasHolo = computed(() => {
-		if (data.value) {
+		if (data.value?.cardmarket) {
 			for (const [key, value] of Object.entries(data.value.cardmarket.prices)) {
-				console.log(key)
 				if (cardmarketHoloKeys.includes(key)) {
 					if (value != 0) return true
 				}

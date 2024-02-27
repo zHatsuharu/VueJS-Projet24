@@ -3,14 +3,14 @@
     <VCard
         min-width="400"
     >
-      <VSelect
+      <VAutocomplete
           :loading="loading"
           label="Select a Set"
           :items="data"
           :item-title="formatTitle"
           :item-value="(item: SetGacha) => item"
           v-model="selected"
-      ></VSelect>
+      ></VAutocomplete>
       <SetInfoGacha
           v-if="selected"
           :set-id="selected.code"

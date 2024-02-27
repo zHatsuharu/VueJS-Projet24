@@ -2,13 +2,23 @@
   <template v-if="data && !loading">
     <VCard
       :loading="loading"
-      :class="{'cardFront': true, 'flipped': flipped}"
+      :class="{
+        'cardFront': true,
+        'flipped': flipped,
+        'common': cardsRarity.common.includes(card.rarity),
+        'uncommon': cardsRarity.uncommon.includes(card.rarity),
+        'rare': cardsRarity.rare.includes(card.rarity),
+        'special':cardsRarity.special.includes(card.rarity),
+        'legendary': cardsRarity.legendary.includes(card.rarity),
+      }"
       image="/backcard.png"
       @click="flipped = !loading"
     ></VCard>
     <VCard
       :class="{'cardBack': true, 'flipped': flipped}"
       :image="data.images.small"
+      :href="'/card/' + card.id"
+      target="_blank"
     ></VCard>
   </template>
   <template v-else>
@@ -25,6 +35,7 @@
 import { ref } from 'vue';
 import { BoosterCard } from '../types/boosterCard';
 import { Card } from '../types/card';
+import {cardsRarity} from "../constants/cardsRarity.const.ts";
 
 	interface Props {
 		card: BoosterCard
@@ -53,7 +64,8 @@ import { Card } from '../types/card';
   position: absolute;
   width: 192px;
   height: 266.25px;
-  transition: transform 0.5s ease;
+  transition: transform 0.5s ease,
+              box-shadow 0.3s ease-in-out;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
@@ -71,5 +83,21 @@ import { Card } from '../types/card';
 
 .cardFront.flipped {
   transform: perspective(1000px) rotateY(-180deg);
+}
+
+.common:hover {
+  box-shadow: 0 0 20px 1px dimgrey;
+}
+.uncommon:hover {
+  box-shadow: 0 0 20px 1px limegreen;
+}
+.rare:hover {
+  box-shadow: 0 0 20px 1px dodgerblue;
+}
+.special:hover {
+  box-shadow: 0 0 20px 1px mediumpurple;
+}
+.legendary:hover {
+  box-shadow: 0 0 20px 2px gold;
 }
 </style>
