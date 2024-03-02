@@ -11,7 +11,7 @@ git clone https://github.com/zHatsuharu/VueJS-Projet24.git
 
 2 - Aller dans le dossier du projet
 ```
-cd PokemonCardVue
+cd VueJS-Projet24/PokemonCardVue
 ```
 
 3 - Installer les modules node
