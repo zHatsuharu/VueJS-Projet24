@@ -19,15 +19,16 @@
       />
     </VCard>
     <BoosterOpening
-        v-if="boosterData"
-        :data="boosterData"
+      v-if="boosterData.length > 0"
+      :data="boosterData"
+      :key="openingKey"
     />
   </VContainer>
 </template>
 
 <script setup lang="ts">
 
-import {ref} from "vue";
+import {reactive, ref} from "vue";
 import {SetGacha} from "../types/setGacha.ts";
 import SetInfoGacha from "../components/SetInfoGacha.vue";
 import {BoosterCard} from "../types/boosterCard.ts";
@@ -35,9 +36,10 @@ import BoosterOpening from "../components/BoosterOpening.vue";
 
   const loading = ref(true)
   const loadingBtn = ref(false)
-  const data = ref<SetGacha[]>([])
-  const boosterData = ref<BoosterCard[]>()
+  const data = reactive<SetGacha[]>([])
+  const boosterData = reactive<BoosterCard[]>([])
   const selected = ref<SetGacha>()
+  const openingKey = ref(0)
 
   function formatTitle(item: SetGacha) {
     return `${item.name} - ${item.series}`
@@ -48,14 +50,17 @@ import BoosterOpening from "../components/BoosterOpening.vue";
   })
   .then((response) => response.json())
   .then((result) => {
-    data.value = result
+    data.splice(0, data.length)
+    data.push(...result)
   })
   .finally(() => {
     loading.value = false
   })
 
   function openPack() {
+    boosterData.splice(0, boosterData.length)
     if (selected.value) {
+      openingKey.value++
       let setName = selected.value.name.replace(" (European)", "").replace(" (OCG)", "");
       let server = 'origin'
       let url = `/api/pack-sim/pack-open.php?format=${encodeURIComponent(setName)}&server=${server}`;
@@ -71,7 +76,7 @@ import BoosterOpening from "../components/BoosterOpening.vue";
       })
       .then((response) => response.json())
       .then((result) => {
-        boosterData.value = result
+        boosterData.push(...result)
       })
       .finally(() => {
         loadingBtn.value = false

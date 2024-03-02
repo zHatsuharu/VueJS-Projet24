@@ -13,8 +13,8 @@
 			<VCardTitle>
 				{{ card.name }}
 			</VCardTitle>
-			<VChip :prepend-icon="tcgicon">TCGPlayer</VChip>
-			<VChip :prepend-icon="cmarketicon">Cardmarket</VChip>
+			<VChip :prepend-icon="tcgicon" :color="tcgcolor">TCGPlayer</VChip>
+			<VChip :prepend-icon="cmarketicon" :color="cmarketcolor">Cardmarket</VChip>
 			<VBtn
 				icon="mdi-arrow-right-thick"
 				:to="`/card/${card.id}`"
@@ -33,10 +33,16 @@ import {computed} from "vue";
 
 	const {card} = defineProps<Props>()
 
-  const tcgicon = computed(() => {
-    return card.tcgplayer ? 'mdi-check' : 'mdi-close'
-  })
- const cmarketicon = computed(() => {
-   return card.cardmarket ? 'mdi-check' : 'mdi-close'
- })
+	const tcgicon = computed(() => {
+		return card.tcgplayer ? 'mdi-check' : 'mdi-close'
+	})
+	const cmarketicon = computed(() => {
+		return card.cardmarket ? 'mdi-check' : 'mdi-close'
+	})
+	const tcgcolor = computed(() => {
+		return card.tcgplayer ? 'green' : 'red'
+	})
+	const cmarketcolor = computed(() => {
+		return card.cardmarket ? 'green' : 'red'
+	})
 </script>

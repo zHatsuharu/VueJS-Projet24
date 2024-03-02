@@ -1,61 +1,37 @@
 <template>
-  <template v-if="data && !loading">
-    <VCard
-      :loading="loading"
-      :class="{
-        'cardFront': true,
-        'flipped': flipped,
-        'common': cardsRarity.common.includes(card.rarity),
-        'uncommon': cardsRarity.uncommon.includes(card.rarity),
-        'rare': cardsRarity.rare.includes(card.rarity),
-        'special':cardsRarity.special.includes(card.rarity),
-        'legendary': cardsRarity.legendary.includes(card.rarity),
-      }"
-      image="/backcard.png"
-      @click="flipped = !loading"
-    ></VCard>
-    <VCard
-      :class="{'cardBack': true, 'flipped': flipped}"
-      :image="data.images.small"
-      :href="'/card/' + card.id"
-      target="_blank"
-    ></VCard>
-  </template>
-  <template v-else>
-    <VCard
-      :loading="loading"
-      width="192"
-      height="266.25"
-      image="/backcard.png"
-    ></VCard>
-  </template>
+  <VCard
+    :class="{
+      'cardFront': true,
+      'flipped': flipped,
+      'common': cardsRarity.common.includes(card.card.rarity),
+      'uncommon': cardsRarity.uncommon.includes(card.card.rarity),
+      'rare': cardsRarity.rare.includes(card.card.rarity),
+      'special':cardsRarity.special.includes(card.card.rarity),
+      'legendary': cardsRarity.legendary.includes(card.card.rarity),
+    }"
+    image="/backcard.png"
+    @click="flipped = !flipped"
+  ></VCard>
+  <VCard
+    :class="{'cardBack': true, 'flipped': flipped}"
+    :image="card.card.images.small"
+    :href="'/card/' + card.id"
+    target="_blank"
+  ></VCard>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { BoosterCard } from '../types/boosterCard';
 import { Card } from '../types/card';
 import {cardsRarity} from "../constants/cardsRarity.const.ts";
+import { DropCard } from '../types/dropCard.ts';
 
 	interface Props {
-		card: BoosterCard
+		card: DropCard
 	}
 	const {card} = defineProps<Props>()
 
 	const flipped = ref(false)
-  const loading = ref(true)
-  const data = ref<Card>()
-
-  fetch(`https://api.pokemontcg.io/v2/cards/${card.id}`, {
-    method: 'GET'
-  })
-  .then(response => response.json())
-  .then(result => {
-    data.value = result.data
-  })
-  .finally(() => {
-    loading.value = false
-  })
 </script>
 
 <style scoped>

@@ -1,7 +1,7 @@
 <template>
 	<VContainer>
-		<VRow>
-			<VCol
+		<AppCardContainer gap="30px">
+			<template
 				v-if="!loading && data !== undefined"
 				v-for="card in data.data"
 				:key="JSON.stringify(card)"
@@ -9,8 +9,8 @@
 				<PokemonCard
 					:card="card"
 				/>
-			</VCol>
-			<VCol
+			</template>
+			<template
 				v-else
 				v-for="n in 24"
 				:key="n"
@@ -20,8 +20,8 @@
 					elevation="1"
 					width="180px"
 				></VSkeletonLoader>
-			</VCol>
-		</VRow>
+			</template>
+		</AppCardContainer>
 		<VPagination
 			v-if="length > 0"
 			:disabled="loading"
@@ -37,6 +37,7 @@ import { ref } from 'vue';
 import { CardList } from '../types/cardList'
 import PokemonCard from '../components/PokemonCard.vue';
 import { watch } from 'vue';
+import AppCardContainer from '../components/AppCardContainer.vue';
 
 	const loading = ref(true)
 	const data = ref<CardList>()
