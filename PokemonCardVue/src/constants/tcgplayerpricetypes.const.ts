@@ -3,5 +3,7 @@ export const tcgplayerPriceTypes = [
 	'holofoil',
 	'reverseHolofoil',
 	'1stEditionNormal',
-	'1stEditionHolofoil'
+	'1stEditionHolofoil',
+	'1stEdition',
+	'unlimited'
 ]

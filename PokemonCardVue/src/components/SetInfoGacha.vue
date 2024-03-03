@@ -16,6 +16,7 @@
           :loading="loading || props.loadingBtn"
           prepend-icon="mdi-gift-open-outline"
           @click="emits('openPack')"
+          :disabled="props.disabled"
       >Open</VBtn>
     </VCardActions>
   </VCard>
@@ -27,7 +28,8 @@
 
   interface Props {
     setId: string
-    loadingBtn: boolean
+    loadingBtn: boolean,
+    disabled: boolean
   }
   const props = defineProps<Props>()
 

@@ -1,8 +1,15 @@
 <template>
 	<VContainer>
+		<form>
+			<SearchBar
+				:disabled="loading"
+				v-model="search"
+				@keydown.enter.prevent="searchCard"
+			/>
+		</form>
 		<AppCardContainer gap="30px">
 			<template
-				v-if="!loading && data !== undefined"
+				v-if="!loading && data !== undefined && data.data.length > 0"
 				v-for="card in data.data"
 				:key="JSON.stringify(card)"
 			>
@@ -10,10 +17,12 @@
 					:card="card"
 				/>
 			</template>
+			<template v-else-if="data && data.data.length <= 0">
+				<AppSearchNotFound />
+			</template>
 			<template
 				v-else
-				v-for="n in 24"
-				:key="n"
+				v-for="_ in 24"
 			>
 				<VSkeletonLoader
 					type="card"
@@ -33,29 +42,62 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { CardList } from '../types/cardList'
 import PokemonCard from '../components/PokemonCard.vue';
 import { watch } from 'vue';
 import AppCardContainer from '../components/AppCardContainer.vue';
+import SearchBar from '../components/SearchBar.vue';
+import AppSearchNotFound from '../components/AppSearchNotFound.vue';
 
 	const loading = ref(true)
 	const data = ref<CardList>()
 	const page = ref(1);
 	const length = ref(0)
+	const search = ref('')
+
+	const query = computed(() => 
+		search.value !== '' ? `&q=name:"*${search.value}*"` : ''
+	)
+
+	function searchCard() {
+		loading.value = true
+		page.value = 1
+		length.value = 0
+		data.value = undefined
+		fetch(`https://api.pokemontcg.io/v2/cards?pageSize=100&page=${page.value}${query.value}`, {
+			method: 'GET'
+		})
+		.then(response => response.json())
+		.then(result => {
+			data.value = result
+			if (data.value) {
+				length.value = Math.ceil(data.value.totalCount / data.value.pageSize)
+			}
+		})
+		.finally(() => {
+			loading.value = false
+		})
+		.catch((error) => {
+			console.error(error)
+		})
+	}
 
 	watch(page, () => {
 		loading.value = true
-		fetch(`https://api.pokemontcg.io/v2/cards?pageSize=100&page=${page.value}`, {
+		data.value = undefined
+		fetch(`https://api.pokemontcg.io/v2/cards?pageSize=100&page=${page.value}${query.value}`, {
 			method: 'GET',
 		})
 		.then(response => response.json())
 		.then(result => {
 			data.value = result
-			loading.value = false
 			if (data.value) {
 				length.value = Math.ceil(data.value.totalCount / data.value.pageSize)
 			}
+		})
+		.finally(() => {
+			loading.value = false
 		})
 		.catch((error) => {
 			console.error(error)

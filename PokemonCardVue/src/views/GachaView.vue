@@ -15,6 +15,7 @@
           v-if="selected"
           :set-id="selected.code"
           :loading-btn="loadingBtn"
+          :disabled="errorMsg !== ''"
           @open-pack="openPack"
       />
     </VCard>
@@ -23,12 +24,19 @@
       :data="boosterData"
       :key="openingKey"
     />
+    <VAlert
+      v-if="errorMsg !== ''"
+      :text="errorMsg"
+      color="red"
+      class="ma-5"
+    >
+    </VAlert>
   </VContainer>
 </template>
 
 <script setup lang="ts">
 
-import {reactive, ref} from "vue";
+import {reactive, ref, watch} from "vue";
 import {SetGacha} from "../types/setGacha.ts";
 import SetInfoGacha from "../components/SetInfoGacha.vue";
 import {BoosterCard} from "../types/boosterCard.ts";
@@ -40,6 +48,7 @@ import BoosterOpening from "../components/BoosterOpening.vue";
   const boosterData = reactive<BoosterCard[]>([])
   const selected = ref<SetGacha>()
   const openingKey = ref(0)
+  const errorMsg = ref('')
 
   function formatTitle(item: SetGacha) {
     return `${item.name} - ${item.series}`
@@ -81,7 +90,15 @@ import BoosterOpening from "../components/BoosterOpening.vue";
       .finally(() => {
         loadingBtn.value = false
       })
+      .catch(error => {
+        console.error(error)
+        errorMsg.value = 'An error occured... The booster may be unavailable anymore.'
+      })
     }
   }
+
+  watch(selected, () => {
+    errorMsg.value = ''
+  })
 
 </script>

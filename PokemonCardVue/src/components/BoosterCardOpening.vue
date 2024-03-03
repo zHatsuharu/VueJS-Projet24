@@ -22,7 +22,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Card } from '../types/card';
 import {cardsRarity} from "../constants/cardsRarity.const.ts";
 import { DropCard } from '../types/dropCard.ts';
 
