@@ -15,11 +15,17 @@ import AppCardContainer from "./AppCardContainer.vue";
 import BoosterCardOpening from "./BoosterCardOpening.vue";
 import { DropCard } from "../types/dropCard";
 import { Card } from "../types/card";
+import { onUpdated } from "vue";
 
   interface Props {
     data: BoosterCard[]
   }
   const {data} = defineProps<Props>()
+
+  type Emits = {
+    loaded: []
+  }
+  const emit = defineEmits<Emits>();
 
   const cardsData = reactive<DropCard[]>([])
 
@@ -45,6 +51,8 @@ import { Card } from "../types/card";
       })
     })
   })
+
+  onUpdated(() => emit("loaded"))
 </script>
 
 <style scoped>

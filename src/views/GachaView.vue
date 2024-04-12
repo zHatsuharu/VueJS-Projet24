@@ -23,6 +23,7 @@
       v-if="boosterData.length > 0"
       :data="boosterData"
       :key="openingKey"
+      @loaded="boosterLoaded"
     />
     <VAlert
       v-if="errorMsg !== ''"
@@ -87,14 +88,15 @@ import BoosterOpening from "../components/BoosterOpening.vue";
       .then((result) => {
         boosterData.push(...result)
       })
-      .finally(() => {
-        loadingBtn.value = false
-      })
       .catch(error => {
         console.error(error)
         errorMsg.value = 'An error occured... The booster may be unavailable anymore.'
       })
     }
+  }
+
+  function boosterLoaded() {
+    loadingBtn.value = false
   }
 
   watch(selected, () => {
